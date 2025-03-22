@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: spring_app
+    depends_on:
+      - postgres
+      - mailhog
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_MAIL_HOST: mailhog
+      SPRING_MAIL_PORT: 1025
+    ports:
+      - "8080:8080"
+    networks:
+      - mynetwork
+    volumes:
+      - .:/app
+      - /app/target  # Loại trừ target để tránh lỗi build
+
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Giữ dữ liệu PostgreSQL
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog_service
+    ports:
+      - "8025:8025"  # UI MailHog
+      - "1025:1025"  # SMTP giả lập
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  pgdata:  # Volume để lưu database PostgreSQL
