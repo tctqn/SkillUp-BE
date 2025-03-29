@@ -17,21 +17,21 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "associate_id", nullable = false) // ID của thực thể liên kết
+    @Column(name = "associate_id", nullable = false)
     private Long associateId;
 
-    @Enumerated(EnumType.STRING) // Lưu enum dưới dạng chuỗi
+    @Enumerated(EnumType.STRING)
     @Column(name = "associate_type", nullable = false)
     private AssociateType associateType;
 
     @Column(nullable = false)
-    private String fileUrl; // Đường dẫn file lưu trữ
+    private String fileUrl;
 
     @Column(nullable = false)
-    private String originalFilename; // Tên gốc của file
+    private String originalFilename;
 
     @Column(nullable = false)
-    private String fileType; // PDF, MP4, PNG, etc.
+    private String fileType;
 
     @Column(name = "upload_date", nullable = false, updatable = false)
     private Instant uploadDate = Instant.now();
