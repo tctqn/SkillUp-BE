@@ -1,20 +1,22 @@
 package com.startup.skillupbe.model;
 
+import com.startup.skillupbe.enums.PermissionName;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Entity
+@Table(name = "permissions")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-@Entity
-@Table(name = "permissions")
 public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING) // Lưu enum dưới dạng chuỗi
     @Column(nullable = false, unique = true)
-    private String name;
+    private PermissionName name;
 }

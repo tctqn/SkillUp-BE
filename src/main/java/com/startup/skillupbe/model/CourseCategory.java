@@ -1,20 +1,23 @@
 package com.startup.skillupbe.model;
 
+import com.startup.skillupbe.enums.CourseCategoryName;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Entity
+@Table(name = "course_categories")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-@Entity
-@Table(name = "course_categories")
 public class CourseCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING) // Lưu enum dưới dạng chuỗi
     @Column(nullable = false, unique = true)
-    private String name;
+    private CourseCategoryName name;
 }
+
